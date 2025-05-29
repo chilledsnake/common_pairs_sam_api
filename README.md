@@ -42,7 +42,7 @@ python -m venv .venv  #Make sure that you are creating the virtual environment w
 source .venv/bin/activate
 
 # Install dependencies using Poetry
-poetry install
+poetry install --no-root
 
 There are two ways to run the API locally:
 
