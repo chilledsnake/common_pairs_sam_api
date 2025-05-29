@@ -30,6 +30,7 @@ coverage = "^7.8.2"
 pytest-fastapi = "^0.1.0"
 fastapi = "^0.115.12"
 uvicorn = "^0.34.2"
+httpx = "^0.28.1"
 
 
 [build-system]
