@@ -79,6 +79,5 @@ Contributions to this project are welcome. Please ensure that your code adheres 
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
+This project is licensed under the MIT License.
 ---
