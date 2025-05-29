@@ -1,4 +1,4 @@
-# NordHealth Recruitment API
+# Common Number Pairs API (with IaaC)
 
 This project deploys a RESTful API using the FastAPI framework, leveraging AWS SAM (Serverless Application Model) to define the infrastructure as code.
 
