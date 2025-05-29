@@ -4,7 +4,7 @@ This project deploys a RESTful API using the FastAPI framework, leveraging AWS S
 
 ## Infrastructure: AWS SAM
 
-AWS SAM is an open-source framework for building serverless applications. It provides a way to define your application's resources and dependencies using YAML or JSON templates. The template.yaml file in this project defines the necessary AWS resources, such as API Gateway, Lambda functions, and IAM roles.
+AWS SAM is a framework for building serverless applications. It provides a way to define your application's resources and dependencies using YAML or JSON templates. The template.yaml file in this project defines the necessary AWS resources, such as API Gateway, Lambda functions, and IAM roles.
 
 ## Project Structure
 
