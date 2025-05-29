@@ -35,6 +35,15 @@ make typecheck # Checks for type errors using mypy
 
 ### Running the API Locally
 
+# Create a virtual environment
+python -m venv .venv  #Make sure that you are creating the virtual environment with Python 3.13.
+
+# Activate the virtual environment
+source .venv/bin/activate
+
+# Install dependencies using Poetry
+poetry install
+
 There are two ways to run the API locally:
 
 1. **Using AWS SAM:**
