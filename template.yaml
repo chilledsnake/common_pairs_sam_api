@@ -1,0 +1,139 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  Environment:
+    Type: String
+    Default: local
+    AllowedValues:
+      - local
+      - prod
+    Description: The environment to deploy (e.g., prod)
+  ApiDomain:
+    Type: String
+    Description: Root domain for the API (e.g., domain.com)
+  CertificateArn:
+    Type: String
+    Description: ARN of the ACM certificate for the API domain
+  HostedZoneId:
+    Type: String
+    Description: Route 53 hosted zone ID for the API domain
+
+Mappings:
+  EnvironmentConfig:
+    local:
+      Environment: local
+      SecuredApiUrlSubDomainSuffix: local-api
+      PublicApiUrlSubDomainSuffix: local-public-api
+    prod:
+      Environment: prod
+      SecuredApiUrlSubDomainSuffix: api
+      PublicApiUrlSubDomainSuffix: nordhealth-api
+
+Resources:
+  FastApiLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: FastApiDependencies
+      ContentUri: layers/fastapi
+      CompatibleRuntimes:
+        - python3.13
+    Metadata:
+      BuildMethod: python3.13
+
+  ProdUsagePlan:
+    Type: 'AWS::ApiGateway::UsagePlan'
+    Properties:
+      ApiStages:
+        - ApiId: !Ref ServerlessApiGW
+          Stage: !Ref ServerlessApiGW.Stage
+      Quota:
+        Limit: 100
+        Period: DAY
+      Throttle:
+        BurstLimit: 1
+        RateLimit: 1
+      UsagePlanName: ProdUsagePlan
+
+  ServerlessApiGW:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Environment
+      EndpointConfiguration:
+        Type: REGIONAL
+      MethodSettings:
+        - ResourcePath: "/*"
+          HttpMethod: "*"
+          ThrottlingBurstLimit: 1
+          ThrottlingRateLimit: 1
+      Domain:
+        DomainName: !Sub
+            - "${PublicApiUrlSubDomainSuffix}.${ApiDomain}"
+            - {
+                PublicApiUrlSubDomainSuffix: !FindInMap [EnvironmentConfig, !Ref Environment, PublicApiUrlSubDomainSuffix],
+                ApiDomain: !Ref ApiDomain
+            }
+        CertificateArn: !Ref CertificateArn
+        Route53:
+          HostedZoneId: !Ref HostedZoneId
+
+  NordhealthRecruitmentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.main.handler
+      Runtime: python3.13
+      CodeUri: ./
+      MemorySize: 128
+      Timeout: 15
+      Layers:
+        - !Ref FastApiLayer
+      Events:
+        NordhealthRecruitmentProjectInfoEndpoint:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ServerlessApiGW
+            Path: /v1/nordhealth/get_info/
+            Method: GET
+        NordhealthRecruitmentTaskApiEndpoint:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ServerlessApiGW
+            Path: /v1/nordhealth/extract_numbers_pairs/
+            Method: POST
+      Environment:
+        Variables:
+          APP_ENV: !Ref Environment
+          APP_STACK_NAME : !Ref AWS::StackName
+
+  SwaggerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.main.handler
+      Runtime: python3.13
+      CodeUri: ./
+      MemorySize: 128
+      Timeout: 15
+      Layers:
+        - !Ref FastApiLayer
+      Events:
+        SwaggerApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ServerlessApiGW
+            Path: /docs
+            Method: GET
+        RedocApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ServerlessApiGW
+            Path: /redoc
+            Method: GET
+        OpenAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ServerlessApiGW
+            Path: /openapi.json
+            Method: GET
+      Environment:
+        Variables:
+          APP_ENV: !Ref Environment

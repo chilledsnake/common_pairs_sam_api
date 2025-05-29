@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "nordhealth"
+version = "0.1.0"
+description = ""
+authors = ["chilledsnake <cwroblewski@o2.pl>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+pydantic = "^2.10.4"
+
+
+[tool.poetry.group.fastapi.dependencies]
+python-jose = "^3.3.0"
+cryptography = "^44.0.0"
+pydantic-settings = "^2.7.0"
+fastapi = "^0.115.6"
+mangum = "^0.19.0"
+boto3 = "^1.35.90"
+sentry-sdk = {extras = ["fastapi"], version = "^2.19.2"}
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.31.0"
+ruff = "^0.11.11"
+mypy = "^1.15.0"
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+coverage = "^7.8.2"
+pytest-fastapi = "^0.1.0"
+fastapi = "^0.115.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

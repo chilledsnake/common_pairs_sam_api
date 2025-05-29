@@ -1,0 +1,7 @@
+[run]
+omit =
+    */utils.py
+    */__init__.py
+    */config.py
+    */main.py
+    */schema.py
