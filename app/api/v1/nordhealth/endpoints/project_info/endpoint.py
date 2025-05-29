@@ -7,7 +7,7 @@ router = APIRouter()
 @router.get("/get_info/", response_class=PlainTextResponse)
 async def get_info():
     return """
-    Github repository: xyz,
+    Github repository: https://github.com/chilledsnake/common_pairs_sam_api,
     Author: Cezary Wróblewski
     Email: cwroblewski@o2.pl
     """

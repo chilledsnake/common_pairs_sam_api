@@ -4,7 +4,7 @@ from tests.conftest import client
 
 def test_project_info(client):
     expected_output = """
-    Github repository: xyz,
+    Github repository: https://github.com/chilledsnake/common_pairs_sam_api,
     Author: Cezary Wróblewski
     Email: cwroblewski@o2.pl
     """

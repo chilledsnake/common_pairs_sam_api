@@ -20,7 +20,6 @@ typecheck:
 help:
 	@echo "Available targets:"
 	@echo "  all           - Run format, lint, and test"
-	@echo "  clean         - Clean up build and cache files"
 	@echo "  format        - Format code using black"
 	@echo "  help          - Show this help message"
 	@echo "  test          - Run all tests"

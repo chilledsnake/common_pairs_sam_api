@@ -9,7 +9,11 @@ root_path = f"/{env_vars.APP_ENV}" if env_vars.APP_ENV != "local" else ""
 
 app = FastAPI(
     title="nordhealth-api.ownspace.cloud API",
-    description="nordhealth-api.ownspace.cloud API",
+    description="""nordhealth-api.ownspace.cloud API\n
+    to get **github repository**, call **Get Info** endpoint,\n
+    to extract common pairs sum of numbers, call **Extract Common Numbers Pairs** endpoint.\n
+    I hope You like it! 🚀
+    """,
     version="0.1.0",
     openapi_url="/openapi.json",
     docs_url="/docs",
@@ -18,7 +22,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust this as needed
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
