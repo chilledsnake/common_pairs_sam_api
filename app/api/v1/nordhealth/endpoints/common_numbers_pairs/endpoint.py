@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import PlainTextResponse
+
 from app.api.v1.nordhealth.endpoints.common_numbers_pairs.schema import (
     ExtractCommonNumbersPairsInputDataSchema,
 )

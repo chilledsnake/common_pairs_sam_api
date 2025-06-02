@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
-from app.main import app  # Adjust the import path according to your project structure
+
+from app.main import app
 
 
 @pytest.fixture(scope="module")

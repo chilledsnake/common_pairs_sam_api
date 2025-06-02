@@ -1,6 +1,7 @@
-from fastapi import status
-from tests.conftest import client
 import pytest
+from fastapi import status
+
+from tests.conftest import client
 
 
 @pytest.mark.parametrize(
